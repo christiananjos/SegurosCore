@@ -29,7 +29,7 @@ namespace PropostaHub.Infrastructure.Adapters.Persistence
                     .HasMaxLength(11);
 
                 entity.Property(p => p.ValorSeguro)
-                    .HasColumnType("decimal(18,2)"); // This requires the Metadata.Builders namespace
+                    .HasColumnType("decimal(18,2)");
 
                 entity.Property(p => p.Status)
                     .HasConversion<int>();
