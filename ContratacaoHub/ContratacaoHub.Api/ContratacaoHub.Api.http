@@ -1,0 +1,6 @@
+@ContratacaoHub.Api_HostAddress = http://localhost:5051
+
+GET {{ContratacaoHub.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
