@@ -12,13 +12,13 @@ namespace PropostaHub.Core.Domain.Entities
         public DateTime DataCriacao { get; private set; }
         public DateTime? DataAtualizacao { get; private set; }
 
-        // Construtor privado para EF
+
         private Proposta() { }
 
-        // Factory method - garante que proposta sempre inicia "Em Analise"
+
         public static Proposta Criar(string nomeCliente, string cpf, decimal valorSeguro)
         {
-            // Validacoes basicas (com alguns erros propositais)
+
             if (string.IsNullOrWhiteSpace(nomeCliente))
                 throw new ArgumentException("Nome do cliente é obrigatorio");
 
@@ -39,14 +39,13 @@ namespace PropostaHub.Core.Domain.Entities
             };
         }
 
-        // Metodo de dominio para alterar status
+
         public void AlterarStatus(StatusProposta novoStatus)
         {
-            // Regra de negocio: não pode alterar status de proposta rejeitada
+
             if (Status == StatusProposta.Rejeitada)
                 throw new InvalidOperationException("Nao é possivel alterar o status de uma proposta rejeitada");
 
-            // Regra: nao pode voltar para "em analise" depois de aprovada
             if (Status == StatusProposta.Aprovada && novoStatus == StatusProposta.EmAnalise)
                 throw new InvalidOperationException("Proposta aprovada nao pode voltar para analise");
 

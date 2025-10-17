@@ -24,35 +24,25 @@ namespace ContratacaoHub.Core.UseCases
         {
             _logger.LogInformation("Iniciando contratacao da proposta {PropostaId}", propostaId);
 
-            // Verifica se ja existe contratacao para esta proposta
             var jaContratada = await _contratacaoRepository.ExisteContratacaoParaPropostaAsync(propostaId);
 
             if (jaContratada)
-            {
                 throw new InvalidOperationException("Esta proposta ja foi contratada anteriormente");
-            }
 
-            // Busca a proposta no microservico de Proposta
             var proposta = await _propostaClient.ObterPropostaAsync(propostaId);
 
             if (proposta == null)
-            {
                 throw new InvalidOperationException($"Proposta {propostaId} nao encontrada");
-            }
 
-            // Valida se a proposta esta aprovada (Status = 2)
-            if (proposta.Status != 2)  // 2 = Aprovada
-            {
+            if (proposta.Status != 2)
                 throw new InvalidOperationException("Somente propostas aprovadas podem ser contratadas");
-            }
 
-            // Cria a contratacao
             var contratacao = Contratacao.Criar(
-                propostaId,
-                proposta.NomeCliente,
-                proposta.ValorSeguro);
+                            propostaId,
+                            proposta.NomeCliente,
+                            proposta.ValorSeguro);
 
-            // Persiste
+
             await _contratacaoRepository.AdicionarAsync(contratacao);
 
             _logger.LogInformation("Contratacao {ContratacaoId} criada com sucesso", contratacao.Id);

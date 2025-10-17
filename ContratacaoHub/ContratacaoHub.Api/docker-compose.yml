@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Teste@123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - seguros-network
+
+  propostahub:
+    image: christiananjos/propostahub:latest
+    container_name: propostahub
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PropostaServiceDb;User Id=sa;Password=Teste@123;TrustServerCertificate=True
+    ports:
+      - "5001:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - seguros-network
+
+  contratacaohub:
+    image: christiananjos/contratacaohub:latest
+    container_name: contratacaohub
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ContratacaoServiceDb;User Id=sa;Password=Teste@123;TrustServerCertificate=True
+      - PropostaServiceUrl=http://propostahub:80
+    ports:
+      - "5002:80"
+    depends_on:
+      - sqlserver
+      - propostahub
+    networks:
+      - seguros-network
+
+networks:
+  seguros-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
