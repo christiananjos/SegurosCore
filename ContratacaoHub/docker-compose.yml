@@ -1,0 +1,59 @@
+﻿version: '3.8'
+
+services:
+  # Serviço da API de Contratação
+  contratacaohub.api:
+    image: ${DOCKER_REGISTRY-}contratacaohubapi
+    build:
+      context: .
+      dockerfile: ContratacaoHub.Api/Dockerfile
+    container_name: contratacaohub.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ContratacaoServiceDb;User Id=sa;Password=Teste@123;TrustServerCertificate=True
+      - PropostaServiceUrl=http://propostahub.api:8080
+    ports:
+      - "5002:8080"
+    depends_on:
+      - sqlserver
+      - propostahub.api
+    networks:
+      - seguros-network
+
+  # Serviço da API de Proposta
+  propostahub.api:
+    image: ${DOCKER_REGISTRY-}propostahubapi
+    build:
+      context: .
+      dockerfile: PropostaHub.Api/Dockerfile
+    container_name: propostahub.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PropostaServiceDb;User Id=sa;Password=Teste@123;TrustServerCertificate=True
+    ports:
+      - "5001:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - seguros-network
+
+  # Serviço do Banco de Dados SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Teste@123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - seguros-network
+
+networks:
+  seguros-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:

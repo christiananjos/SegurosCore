@@ -24,12 +24,21 @@ builder.Services.AddScoped<IContratacaoRepository, ContratacaoRepository>();
 builder.Services.AddScoped<ContratarPropostaUseCase>();
 
 // HttpClient para comunicacao com PropostaService
-builder.Services.AddHttpClient<IPropostaServiceClient, PropostaServiceClient>(client =>
+var httpClientBuilder = builder.Services.AddHttpClient<IPropostaServiceClient, PropostaServiceClient>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["PropostaServiceUrl"]
-        ?? "http://localhost:5001");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
+        ?? "https://localhost:32783");
 });
+
+// Adiciona handler para ignorar erros de certificado SSL em desenvolvimento
+if (builder.Environment.IsDevelopment())
+{
+    httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    });
+}
+
 
 var app = builder.Build();
 

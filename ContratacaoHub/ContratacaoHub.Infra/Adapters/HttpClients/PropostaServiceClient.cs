@@ -28,7 +28,7 @@ namespace ContratacaoHub.Infra.Adapters.HttpClients
             {
                 _logger.LogInformation("Buscando proposta {PropostaId} no PropostaService", propostaId);
 
-                var response = await _httpClient.GetAsync($"/api/proposta/{propostaId}");
+                var response = await _httpClient.GetAsync($"api/Proposta/{propostaId}");
 
                 if (!response.IsSuccessStatusCode)
                 {

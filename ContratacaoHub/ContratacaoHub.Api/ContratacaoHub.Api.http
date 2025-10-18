@@ -1,6 +1,6 @@
 @ContratacaoHub.Api_HostAddress = http://localhost:5051
 
-GET {{ContratacaoHub.Api_HostAddress}}/weatherforecast/
+GET {{ContratacaoHub.Api_HostAddress}}/contratacao/
 Accept: application/json
 
 ###

@@ -1,6 +1,6 @@
 @PropostaHub.Api_HostAddress = http://localhost:5004
 
-GET {{PropostaHub.Api_HostAddress}}/weatherforecast/
+GET {{PropostaHub.Api_HostAddress}}/contratacao/
 Accept: application/json
 
 ###
