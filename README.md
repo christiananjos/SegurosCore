@@ -35,9 +35,19 @@ Gerencia contrataçoes:
 
 ### Opçao 1: Docker Compose (Recomendado)
 
+### Opçao 2: Executar Localmente
 
+PropostaHub
+cd PropostaHub/src/PropostaHub.Api
+dotnet ef database update
+dotnet run
 
-Resumo dos Principios Aplicados
+ContratacaoHub (em outro terminal)
+cd ContratacaoHub/src/ContratacaoHub.Api
+dotnet ef database update
+dotnet run
+
+### Resumo dos Principios Aplicados
 Arquitetura Hexagonal: Separaçao clara entre dominio (core) e infraestrutura (adapters) através de portas (interfaces).​
 
 DDD: Entidades ricas com lógica de negocio, Value Objects, Agregados, e linguagem ubiqua.​
