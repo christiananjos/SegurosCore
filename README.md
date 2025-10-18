@@ -14,13 +14,13 @@ Sistema para gerenciamento de propostas e contrataçoes de seguro usando arquite
 
 ## Estrutura
 
-### PropostaService
+### PropostaHub
 Gerencia propostas de seguro:
 - Criar proposta
 - Listar propostas
 - Alterar status (Em Analise, Aprovada, Rejeitada)
 
-### ContratacaoService
+### ContratacaoHub
 Gerencia contrataçoes:
 - Contratar proposta aprovada
 - Verificar status da proposta no PropostaService
