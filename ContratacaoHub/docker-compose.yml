@@ -27,3 +27,17 @@ services:
       - PropostaServiceUrl=http://propostahub:8080
     depends_on:
       - propostahub
+
+
+  # Serviço do SQL Server 2025
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sql2025
+    hostname: sql2025
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Teste@123
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+
